@@ -96,28 +96,54 @@ const App = () => {
 
               }
             )
+            .catch(
+              error => {
+                console.log(error)
+                const newMessage = {
+                  message: error.response.data.message,
+                  type: 'error'
+                }
+                console.log(newMessage)
+                setMessage(newMessage)
+                console.log(message)
+                setTimeout(() => setMessage({message:'',type:''}), 3000)
+              }
+            )
 
 
     }
-    else if (newName !== '') {
+    else {
       
       axios.post(baseUrl, newPerson)
             .then(
               response =>
-              {
-                const newPersons = persons.concat({
-                  ...newPerson,
-                  id: response.data.id
-                })
-                setPersons(newPersons)
-                setNewName('')
-                setNewPhone('')
+                {
+                  const newPersons = persons.concat({
+                    ...newPerson,
+                    id: response.data.id
+                  })
+                  setPersons(newPersons)
+                  setNewName('')
+                  setNewPhone('')
 
-                const newMessage = {
-                  message: `Person with name ${newName} successfully added`,
-                  type: 'notification'
+                  const newMessage = {
+                    message: `Person with name ${newName} successfully added`,
+                    type: 'notification'
+                  }
+
+                  setMessage(newMessage)
+                  console.log(message)
+                  setTimeout(() => setMessage({message:'',type:''}), 3000)
                 }
-
+            )
+            .catch(
+              error => {
+                console.log(error)
+                const newMessage = {
+                  message: error.response.data.message,
+                  type: 'error'
+                }
+                console.log(newMessage)
                 setMessage(newMessage)
                 console.log(message)
                 setTimeout(() => setMessage({message:'',type:''}), 3000)
